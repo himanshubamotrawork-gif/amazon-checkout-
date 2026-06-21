@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Checkout - Pay over time</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7; /* Off-white backdrop to create section block separation depth */
+            color: #111111;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .amazon-gradient {
+            background: linear-gradient(to bottom, #232f3e, #131921);
+        }
+        /* Thick, deep realistic dividers separating distinct logical sections */
+        .amazon-section-divider {
+            border-top: 4px solid #eaeded;
+        }
+        /* Light crisp container borders mimicking real native interfaces */
+        .amazon-content-card {
+            border-bottom: 1px solid #e7e7e7;
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto min-h-screen bg-[#f7f7f7] antialiased selection:bg-yellow-100 flex flex-col justify-between shadow-2xl">
+
+    <div>
+        <!-- HEADER LOGO AREA -->
+        <header class="amazon-gradient px-4 py-3 flex items-center justify-between shadow-md">
+            <div class="flex items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" class="h-6 invert pt-1">
+            </div>
+        </header>
+
+        <!-- CONTENT MATRICES -->
+        <!-- SECTION 1: PRICE BREAKDOWN & DISCLAIMERS -->
+        <div class="bg-white p-4 space-y-4 shadow-[0_1px_3px_rgba(0,0,0,0.05)] amazon-content-card">
+            <!-- PRICING CALCULATION WINDOW BLOCK -->
+            <div class="text-[14px] space-y-2 py-1">
+                <div class="flex justify-between text-gray-900">
+                    <span>Items (2):</span>
+                    <span>$1,729.94</span>
+                </div>
+                <div class="flex justify-between text-gray-900">
+                    <span>Shipping & handling:</span>
+                    <span>$0.00</span>
+                </div>
+                
+                <!-- Dynamic Promo Adjustment Target Injection Point -->
+                <div id="promoRow" class="hidden justify-between text-red-700 font-bold">
+                    <span>Voucher Discount Applied:</span>
+                    <span id="promoDeduction">-$0.00</span>
+                </div>
+
+                <div class="flex justify-between text-gray-900">
+                    <span>Estimated tax to be collected:*</span>
+                    <span id="taxValueDisplay">$151.36</span>
+                </div>
+                <!-- Clean font balance with realistic subtotal bolding definitions -->
+                <div class="flex justify-between text-[18px] font-bold text-[#b12704] pt-1">
+                    <span>Order total:</span>
+                    <span id="totalDisplay" class="tracking-tight">$1,881.30</span>
+                </div>
+            </div>
+
+            <!-- APPLICATION INITIAL ACTION FRAME BUTTON -->
+            <div class="py-1">
+                <button onclick="handleApplication()" class="w-full bg-[#ffd814] hover:bg-[#f7ca00] text-black font-medium py-3 px-4 rounded-full text-[14px] shadow-sm border border-[#fcd200] transition-all active:scale-[0.99] text-center">
+                    Continue to application
+                </button>
+            </div>
+
+            <!-- NATIVE DISCLAIMER FLOW BLOCK -->
+            <div class="text-[13px] leading-relaxed text-gray-800 space-y-3 pt-1 border-t border-gray-100">
+                <p>
+                    By clicking or tapping Continue to Application, you agree to Amazon's <a href="#" class="text-blue-600 hover:underline">privacy notice</a> and <a href="#" class="text-blue-600 hover:underline">conditions of use</a>.
+                </p>
+                <p class="text-gray-700">
+                    You have selected to <strong>pay over time with Affirm</strong>, and you will need to submit an application for financing with a third party. We will share information about you, and your Amazon.com account, and this purchase transaction to assist Affirm in evaluating your finance application, and the detection and prevention of fraud. Why has sales tax been applied? <a href="#" class="text-blue-600 hover:underline">See tax and seller information.</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- STRUCTURAL LINE DIVIDER BAR -->
+        <div class="amazon-section-divider"></div>
+
+        <!-- SECTION 2: PAYMENT STRATIFICATION METHODOLOGY -->
+        <div class="bg-white p-4 space-y-3 shadow-[0_1px_3px_rgba(0,0,0,0.05)] amazon-content-card">
+            <h3 class="text-[15px] font-bold text-gray-900 tracking-tight">Pay over time with Affirm</h3>
+            <div class="space-y-2.5 text-[14px] font-medium">
+                <a href="#" class="text-blue-600 hover:underline block">Change payment method</a>
+                
+                <!-- Promo triggering prompt anchor -->
+                <button onclick="triggerPromoModal()" class="text-blue-600 hover:underline block text-left focus:outline-none font-medium">
+                    Use a gift card, voucher, or promo code
+                </button>
+            </div>
+        </div>
+
+        <!-- STRUCTURAL LINE DIVIDER BAR -->
+        <div class="amazon-section-divider"></div>
+
+        <!-- SECTION 3: DELIVERY DETAILS -->
+        <div class="bg-white p-4 space-y-3 shadow-[0_1px_3px_rgba(0,0,0,0.05)] amazon-content-card">
+            <h3 class="font-bold text-gray-900 text-[15px] tracking-tight">Delivering to Amelia</h3>
+            <p class="text-gray-900 leading-normal text-[14px]">
+                13TH ST, NEW YORK CITY, SACRAMENTO, CA, 94203, United States
+            </p>
+            <div class="space-y-2.5 text-[14px] font-medium pt-1">
+                <a href="#" class="text-blue-600 hover:underline block">Change delivery address</a>
+                <a href="#" class="text-blue-600 hover:underline block">Add delivery instructions</a>
+            </div>
+        </div>
+
+        <!-- STRUCTURAL LINE DIVIDER BAR -->
+        <div class="amazon-section-divider"></div>
+
+        <!-- SECTION 4: ARRIVAL METRICS & PRODUCT BUNDLE -->
+        <div class="bg-white p-4 space-y-4 shadow-[0_1px_3px_rgba(0,0,0,0.05)] amazon-content-card">
+            <h3 class="text-[16px] font-bold text-green-700 tracking-tight">Arriving Jun 23, 2026</h3>
+            
+            <div class="flex items-center gap-3 pl-1">
+                <div class="w-5 h-5 rounded-full border-4 border-blue-600 bg-white flex items-center justify-center shadow-sm">
+                    <div class="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
+                </div>
+                <div class="text-[14px]">
+                    <span class="block font-bold text-gray-900">Tuesday, Jun 23</span>
+                    <span class="block text-gray-500 text-[13px] font-medium">FREE Delivery</span>
+                </div>
+            </div>
+
+            <!-- PRODUCT DISPLAY CARD -->
+            <div class="bg-[#fcfcfc] border border-gray-200 rounded-xl p-4 flex gap-4 shadow-[inset_0_1px_2px_rgba(0,0,0,0.01),0_1px_3px_rgba(0,0,0,0.02)]">
+                <!-- Image Container mapping root directory directly to prod-1.jpg -->
+                <div class="w-20 h-24 bg-white border border-gray-200 rounded-lg p-1 flex-shrink-0 flex items-center justify-center overflow-hidden shadow-sm">
+                    <img src="prod-1.jpg" alt="Apple iPhone 16 Pro Max" class="max-h-full max-w-full object-contain">
+                </div>
+                <!-- Description Data Box -->
+                <div class="text-[14px] space-y-1.5 flex-grow">
+                    <h4 class="text-gray-900 font-normal leading-snug tracking-tight text-[13px]">
+                        Apple iPhone 16 Pro Max, 256GB, Black Titanium - Locked to Boost (Renewed)
+                    </h4>
+                    <p class="font-bold text-gray-900 text-[16px] tracking-tight">$864.97</p>
+                    <div class="text-xs text-gray-500 font-medium space-y-0.5">
+                        <p>Ships from Networkstore</p>
+                        <p>Sold by <span class="text-blue-600 hover:underline cursor-pointer">Networkstore</span></p>
+                    </div>
+                    
+                    <!-- Quantity Configuration Controls Badge -->
+                    <div class="pt-2">
+                        <div class="inline-flex items-center bg-[#f0f2f2] border border-gray-300 rounded-lg shadow-sm h-8 px-2 select-none text-[13px] font-medium text-gray-800">
+                            <span class="px-2 cursor-pointer text-gray-400 font-bold hover:text-black">−</span>
+                            <span class="px-3.5 bg-white h-full flex items-center border-x border-gray-300 font-bold px-4">2</span>
+                            <span class="px-2 cursor-pointer text-gray-400 font-bold hover:text-black">+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-[13px] text-gray-500 pl-1 font-medium">Gift options not available</p>
+
+            <!-- SECONDARY EXTENDED FOOTER APPLICATION INTERFACE BLOCK -->
+            <div class="space-y-4 pt-4 border-t border-gray-200">
+                <div>
+                    <button onclick="handleApplication()" class="w-full bg-[#ffd814] hover:bg-[#f7ca00] text-black font-normal py-3 px-4 rounded-full text-[14px] shadow-sm border border-[#fcd200] transition-all active:scale-[0.99] text-center">
+                        Continue to application
+                    </button>
+                </div>
+
+                <div class="text-[12px] leading-relaxed text-gray-700 space-y-3 font-normal">
+                    <p>
+                        By clicking or tapping Continue to Application, you agree to Amazon's <a href="#" class="text-blue-600 hover:underline">privacy notice</a> and <a href="#" class="text-blue-600 hover:underline">conditions of use</a>.
+                    </p>
+                    <p>
+                        You have selected to <strong>pay over time with Affirm</strong>, and you will need to submit an application for financing with a third party. We will share information about you, and your Amazon.com account, and this purchase transaction to assist Affirm in evaluating your finance application, and the detection and prevention of fraud. Why has sales tax been applied? <a href="#" class="text-blue-600 hover:underline">See tax and seller information.</a>
+                    </p>
+                    <p>
+                        For an item sold by Amazon.com: When you click the "Place your order" button, we'll send you an email message acknowledging receipt of your order. Your contract to purchase an item will not be complete until we send you an email notifying you that the item has been shipped.
+                    </p>
+                    <p>
+                        Colorado Purchasers: <a href="#" class="text-blue-600 hover:underline">Important information regarding sales tax you may owe in your State</a>
+                    </p>
+                    <p>
+                        Within 30 days of delivery, you may return new, unopened merchandise in its original condition. Exceptions and restrictions apply. See Amazon.com's <a href="#" class="text-blue-600 hover:underline">Returns Policy</a>
+                    </p>
+                    <p class="pt-1">
+                        <a href="#" class="text-blue-600 hover:underline text-[13px] font-medium">Back to cart</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AMAZON SYSTEM FOOTER COMPONENT -->
+    <footer class="bg-[#131a22] text-white text-[12px] mt-6 w-full">
+        <!-- Language and Country Link Rows -->
+        <div class="flex justify-center items-center gap-8 py-5 border-b border-gray-800 text-gray-300 font-medium">
+            <span class="flex items-center gap-2 cursor-pointer hover:text-white">
+                <i class="fa-solid fa-globe text-gray-400"></i> English
+            </span>
+            <span class="flex items-center gap-2 cursor-pointer hover:text-white">
+                <span class="inline-block w-4 h-3 bg-cover rounded-sm" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg');"></span> United States
+            </span>
+        </div>
+        <!-- Legal Disclaimers Links Matrix Layout -->
+        <div class="px-6 py-6 text-center space-y-4 text-gray-400">
+            <div class="flex flex-wrap justify-center gap-x-4 gap-y-1.5 font-medium">
+                <a href="#" class="hover:underline">Conditions of Use</a>
+                <a href="#" class="hover:underline">Privacy Notice</a>
+                <a href="#" class="hover:underline">Consumer Health Data Privacy Disclosure</a>
+                <a href="#" class="hover:underline">Your Ads Privacy Choices</a>
+            </div>
+            <!-- Compliance Identity Assets representation row -->
+            <div class="flex justify-center">
+                <span class="inline-block h-4 w-9 bg-contain bg-no-repeat bg-center" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4d/Privacy_Options_Icon.svg');"></span>
+            </div>
+            <p class="text-[11px] text-gray-500 pt-1 font-normal">
+                © 1996-2026, Amazon.com, Inc. or its affiliates
+            </p>
+        </div>
+    </footer>
+
+    <!-- PROMO CODE MODAL FORM -->
+    <div id="promoModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-xs border border-gray-300 p-5 shadow-2xl space-y-4 animate-fade-in">
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <h4 class="text-[15px] font-bold text-gray-900">Apply Voucher / Promo</h4>
+                <button onclick="dismissPromoModal()" class="text-gray-400 hover:text-black text-lg font-normal">✕</button>
+            </div>
+            <div class="space-y-3">
+                <input type="text" id="voucherCodeInput" placeholder="ENTER CODE HERE" class="w-full border border-gray-400 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-orange-500 placeholder-gray-400 font-semibold tracking-wide uppercase shadow-inner bg-gray-50/50">
+                <button type="button" onclick="executePromoDiscount()" class="w-full bg-[#ffd814] hover:bg-[#f7ca00] text-black font-medium py-2 rounded-md text-sm border border-[#fcd200] shadow-sm transition-all active:scale-[0.98]">
+                    Apply Code
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CODE CONTROLS PLATFORM -->
+    <script>
+        function triggerPromoModal() {
+            const modal = document.getElementById('promoModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('voucherCodeInput').focus();
+        }
+
+        function dismissPromoModal() {
+            const modal = document.getElementById('promoModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function executePromoDiscount() {
+            const inputField = document.getElementById('voucherCodeInput');
+            const processedCode = inputField.value.trim();
+
+            if (processedCode === "") {
+                alert("Please enter a valid promotional code.");
+                return;
+            }
+
+            // Forced computation targeting standard landing values below $50 limit -> ($46.17)
+            const targetDiscountVal = 1835.13; 
+            
+            const targetPromoRow = document.getElementById('promoRow');
+            document.getElementById('promoDeduction').innerText = `-$${targetDiscountVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            targetPromoRow.classList.remove('hidden');
+            targetPromoRow.classList.add('flex');
+
+            document.getElementById('totalDisplay').innerText = "$46.17";
+            
+            inputField.value = "";
+            dismissPromoModal();
+        }
+
+        function handleApplication() {
+            console.log("Routing process chain hooks cleanly into secure Affirm transaction frameworks...");
+        }
+    </script>
+</body>
+</html>
